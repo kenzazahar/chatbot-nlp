@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot NLP - Service Client</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="header-content">
+                    <div class="bot-avatar">🤖</div>
+                    <div>
+                        <h2>Assistant Virtuel</h2>
+                        <span class="status">● En ligne</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot-message">
+                    <div class="message-avatar">🤖</div>
+                    <div class="message-content">
+                        <p>Bonjour ! Je suis votre assistant virtuel. Comment puis-je vous aider aujourd'hui ?</p>
+                        <span class="message-time">Maintenant</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-input-container">
+                <form id="chatForm">
+                    <input 
+                        type="text" 
+                        id="userInput" 
+                        placeholder="Tapez votre message..." 
+                        autocomplete="off"
+                        required
+                    >
+                    <button type="submit" id="sendBtn">
+                        <span class="send-icon">➤</span>
+                    </button>
+                </form>
+                <div class="suggestions">
+                    <button class="suggestion-btn" onclick="sendSuggestion('Où est ma commande ?')">
+                        📦 Suivre ma commande
+                    </button>
+                    <button class="suggestion-btn" onclick="sendSuggestion('Comment faire un retour ?')">
+                        🔄 Retours
+                    </button>
+                    <button class="suggestion-btn" onclick="sendSuggestion('Modes de paiement')">
+                        💳 Paiement
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-panel" id="statsPanel">
+            <h3>📊 Statistiques</h3>
+            <div class="stat-item">
+                <span class="stat-label">Conversations totales</span>
+                <span class="stat-value" id="totalConv">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Confiance moyenne</span>
+                <span class="stat-value" id="avgConf">0%</span>
+            </div>
+            <div id="topIntents"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

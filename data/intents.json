@@ -1,0 +1,143 @@
+{
+  "intents": [
+    {
+      "tag": "salutation",
+      "patterns": [
+        "Bonjour",
+        "Salut",
+        "Hello",
+        "Bonsoir",
+        "Hey",
+        "Coucou",
+        "Yo"
+      ],
+      "responses": [
+        "Bonjour ! Comment puis-je vous aider aujourd'hui ?",
+        "Salut ! Je suis là pour répondre à vos questions.",
+        "Hello ! En quoi puis-je vous être utile ?"
+      ]
+    },
+    {
+      "tag": "au_revoir",
+      "patterns": [
+        "Au revoir",
+        "Bye",
+        "À bientôt",
+        "Salut",
+        "Ciao",
+        "À plus"
+      ],
+      "responses": [
+        "Au revoir ! Passez une excellente journée !",
+        "À bientôt ! N'hésitez pas à revenir.",
+        "Merci de votre visite. À très vite !"
+      ]
+    },
+    {
+      "tag": "statut_commande",
+      "patterns": [
+        "Où est ma commande",
+        "Statut de ma commande",
+        "Suivre mon colis",
+        "Ma commande n'est pas arrivée",
+        "Quand vais-je recevoir ma commande",
+        "Tracking",
+        "Numéro de suivi"
+      ],
+      "responses": [
+        "Pour vérifier le statut de votre commande, pourriez-vous me fournir votre numéro de commande ?",
+        "Je peux vous aider à suivre votre commande. Quel est votre numéro de commande ?"
+      ]
+    },
+    {
+      "tag": "retour_produit",
+      "patterns": [
+        "Comment retourner un produit",
+        "Je veux faire un retour",
+        "Politique de retour",
+        "Remboursement",
+        "Renvoyer un article",
+        "Retour gratuit"
+      ],
+      "responses": [
+        "Vous avez 30 jours pour retourner un produit. Connectez-vous à votre compte et sélectionnez 'Retours'. Souhaitez-vous plus de détails ?",
+        "Notre politique de retour vous permet de renvoyer tout article dans les 30 jours. Les frais de retour sont gratuits."
+      ]
+    },
+    {
+      "tag": "paiement",
+      "patterns": [
+        "Modes de paiement",
+        "Comment payer",
+        "Paiement sécurisé",
+        "Carte bancaire",
+        "PayPal",
+        "Payer en plusieurs fois"
+      ],
+      "responses": [
+        "Nous acceptons : Carte bancaire (Visa, Mastercard), PayPal, et paiement en 3x sans frais. Tous les paiements sont sécurisés.",
+        "Vous pouvez payer par CB, PayPal ou en 3 fois sans frais à partir de 100€."
+      ]
+    },
+    {
+      "tag": "livraison",
+      "patterns": [
+        "Délai de livraison",
+        "Frais de livraison",
+        "Livraison gratuite",
+        "Combien de temps pour recevoir",
+        "Expédition",
+        "Shipping"
+      ],
+      "responses": [
+        "La livraison standard prend 3-5 jours ouvrés. Livraison gratuite dès 50€ d'achat.",
+        "Nous proposons : Livraison standard (3-5 jours) gratuite dès 50€, et livraison express (24-48h) à 9.90€."
+      ]
+    },
+    {
+      "tag": "aide_generale",
+      "patterns": [
+        "J'ai besoin d'aide",
+        "Aidez-moi",
+        "Je ne comprends pas",
+        "Support",
+        "Assistance",
+        "Contact"
+      ],
+      "responses": [
+        "Je suis là pour vous aider ! Posez-moi votre question ou contactez notre support au 01-XX-XX-XX-XX",
+        "Comment puis-je vous aider ? Vous pouvez aussi nous joindre par email : support@exemple.com"
+      ]
+    },
+    {
+      "tag": "prix_info",
+      "patterns": [
+        "Prix",
+        "Combien coûte",
+        "Tarif",
+        "C'est cher",
+        "Promotion",
+        "Réduction",
+        "Code promo"
+      ],
+      "responses": [
+        "Les prix varient selon les produits. Consultez notre site pour voir les tarifs actuels et les promotions en cours.",
+        "Nous avons régulièrement des promotions ! Inscrivez-vous à notre newsletter pour recevoir des codes promo exclusifs."
+      ]
+    },
+    {
+      "tag": "horaires",
+      "patterns": [
+        "Horaires",
+        "Heures d'ouverture",
+        "Vous êtes ouvert quand",
+        "Disponibilité",
+        "Quand puis-je vous contacter"
+      ],
+      "responses": [
+        "Notre service client est disponible du lundi au vendredi de 9h à 18h. Le chatbot est disponible 24h/24 !",
+        "Vous pouvez nous contacter en semaine de 9h à 18h, et je suis là 24h/24 pour vous aider !"
+      ]
+    }
+  ]
+}
