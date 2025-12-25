@@ -3,39 +3,144 @@ const userInput = document.getElementById('userInput');
 const chatMessages = document.getElementById('chatMessages');
 const sendBtn = document.getElementById('sendBtn');
 
-// Fonction pour envoyer un message
+let lastConversationId = null;
+let typingTimeout = null;
+
+// 🆕 Auto-complétion et suggestions
+userInput.addEventListener('input', async (e) => {
+    clearTimeout(typingTimeout);
+    
+    const message = e.target.value;
+    
+    if (message.length >= 3) {
+        typingTimeout = setTimeout(async () => {
+            await fetchSuggestions(message);
+        }, 300);
+    } else {
+        hideSuggestions();
+    }
+});
+
+async function fetchSuggestions(message) {
+    try {
+        const response = await fetch('/chat/suggestions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message })
+        });
+        
+        const data = await response.json();
+        
+        if (data.suggestions && data.suggestions.length > 0) {
+            showSuggestions(data.suggestions);
+        }
+    } catch (error) {
+        console.error('Erreur suggestions:', error);
+    }
+}
+
+function showSuggestions(suggestions) {
+    let suggestionsDiv = document.getElementById('autoSuggestions');
+    
+    if (!suggestionsDiv) {
+        suggestionsDiv = document.createElement('div');
+        suggestionsDiv.id = 'autoSuggestions';
+        suggestionsDiv.style.cssText = `
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 15px 15px 0 0;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 100;
+        `;
+        document.querySelector('.chat-input-container').appendChild(suggestionsDiv);
+    }
+    
+    suggestionsDiv.innerHTML = suggestions.map(s => `
+        <div class="suggestion-item" onclick="applySuggestion('${s.replace(/'/g, "\\'")}')">
+            💡 ${s}
+        </div>
+    `).join('');
+    
+    // Ajouter les styles
+    if (!document.getElementById('suggestionStyles')) {
+        const style = document.createElement('style');
+        style.id = 'suggestionStyles';
+        style.textContent = `
+            .suggestion-item {
+                padding: 12px 20px;
+                cursor: pointer;
+                transition: background 0.2s;
+                border-bottom: 1px solid #f0f0f0;
+            }
+            .suggestion-item:hover {
+                background: #f8f9fa;
+            }
+            .suggestion-item:last-child {
+                border-bottom: none;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+}
+
+function hideSuggestions() {
+    const suggestionsDiv = document.getElementById('autoSuggestions');
+    if (suggestionsDiv) {
+        suggestionsDiv.remove();
+    }
+}
+
+function applySuggestion(text) {
+    userInput.value = text;
+    hideSuggestions();
+    userInput.focus();
+}
+
+// Fonction pour envoyer un message avec émotions
 async function sendMessage(message) {
-    // Désactiver le bouton pendant l'envoi
     sendBtn.disabled = true;
+    hideSuggestions();
     
-    // Afficher le message de l'utilisateur
     addMessage(message, 'user');
-    
-    // Vider l'input
     userInput.value = '';
     
-    // Afficher l'indicateur de saisie
     showTypingIndicator();
     
     try {
-        // Envoyer au backend
         const response = await fetch('/chat', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: message })
         });
         
         const data = await response.json();
         
-        // Retirer l'indicateur de saisie
         removeTypingIndicator();
         
-        // Afficher la réponse du bot
-        addMessage(data.response, 'bot');
+        // Afficher la réponse avec émotion
+        addMessage(data.response, 'bot', data.emotion);
         
-        // Mettre à jour les stats
+        // Sauvegarder l'ID pour le feedback
+        lastConversationId = data.conversation_id;
+        
+        // Afficher le bouton de feedback
+        showFeedbackButton();
+        
+        // Afficher l'indicateur de langue si différent du français
+        if (data.language && data.language !== 'fr') {
+            showLanguageIndicator(data.language);
+        }
+        
+        // 🆕 Afficher le contexte (debug mode)
+        if (data.context && data.context.length > 0) {
+            console.log('📝 Contexte conversationnel:', data.context);
+        }
+        
         updateStats();
         
     } catch (error) {
@@ -44,19 +149,33 @@ async function sendMessage(message) {
         console.error('Erreur:', error);
     }
     
-    // Réactiver le bouton
     sendBtn.disabled = false;
     userInput.focus();
 }
 
-// Ajouter un message au chat
-function addMessage(text, sender) {
+function addMessage(text, sender, emotion = null) {
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${sender}-message`;
     
+    // Animation d'entrée
+    messageDiv.style.opacity = '0';
+    messageDiv.style.transform = 'translateY(10px)';
+    
     const avatar = document.createElement('div');
     avatar.className = 'message-avatar';
-    avatar.textContent = sender === 'bot' ? '🤖' : '👤';
+    
+    // Avatar avec émotion pour le bot
+    if (sender === 'bot' && emotion) {
+        const emotionIcons = {
+            'happy': '🤖😊',
+            'neutral': '🤖',
+            'frustrated': '🤖😟',
+            'concerned': '🤖🤔'
+        };
+        avatar.textContent = emotionIcons[emotion] || '🤖';
+    } else {
+        avatar.textContent = sender === 'bot' ? '🤖' : '👤';
+    }
     
     const content = document.createElement('div');
     content.className = 'message-content';
@@ -74,10 +193,17 @@ function addMessage(text, sender) {
     messageDiv.appendChild(content);
     
     chatMessages.appendChild(messageDiv);
+    
+    // Animation
+    setTimeout(() => {
+        messageDiv.style.transition = 'all 0.3s ease';
+        messageDiv.style.opacity = '1';
+        messageDiv.style.transform = 'translateY(0)';
+    }, 10);
+    
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-// Afficher l'indicateur de saisie
 function showTypingIndicator() {
     const indicator = document.createElement('div');
     indicator.className = 'message bot-message';
@@ -96,7 +222,6 @@ function showTypingIndicator() {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-// Retirer l'indicateur de saisie
 function removeTypingIndicator() {
     const indicator = document.getElementById('typingIndicator');
     if (indicator) {
@@ -104,19 +229,125 @@ function removeTypingIndicator() {
     }
 }
 
-// Obtenir l'heure actuelle
 function getCurrentTime() {
     const now = new Date();
     return now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
 }
 
-// Envoyer une suggestion
 function sendSuggestion(message) {
     userInput.value = message;
     sendMessage(message);
 }
 
-// Mettre à jour les statistiques
+// 🆕 Système de feedback
+function showFeedbackButton() {
+    // Supprimer l'ancien bouton s'il existe
+    const oldFeedback = document.getElementById('feedbackContainer');
+    if (oldFeedback) oldFeedback.remove();
+    
+    const feedbackDiv = document.createElement('div');
+    feedbackDiv.id = 'feedbackContainer';
+    feedbackDiv.style.cssText = `
+        padding: 15px;
+        margin: 10px 20px;
+        background: #f8f9fa;
+        border-radius: 15px;
+        text-align: center;
+    `;
+    
+    feedbackDiv.innerHTML = `
+        <p style="margin-bottom: 10px; color: #666; font-size: 14px;">
+            Cette réponse vous a-t-elle aidé ?
+        </p>
+        <div style="display: flex; gap: 10px; justify-content: center;">
+            <button onclick="submitFeedback(5)" class="feedback-btn">👍 Oui</button>
+            <button onclick="submitFeedback(1)" class="feedback-btn">👎 Non</button>
+        </div>
+    `;
+    
+    chatMessages.appendChild(feedbackDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    
+    // Ajouter les styles
+    if (!document.getElementById('feedbackStyles')) {
+        const style = document.createElement('style');
+        style.id = 'feedbackStyles';
+        style.textContent = `
+            .feedback-btn {
+                padding: 8px 20px;
+                border: 2px solid #667eea;
+                border-radius: 20px;
+                background: white;
+                color: #667eea;
+                cursor: pointer;
+                font-size: 14px;
+                transition: all 0.3s;
+            }
+            .feedback-btn:hover {
+                background: #667eea;
+                color: white;
+                transform: scale(1.05);
+            }
+        `;
+        document.head.appendChild(style);
+    }
+}
+
+async function submitFeedback(rating) {
+    try {
+        await fetch('/chat/feedback', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                conversation_id: lastConversationId,
+                rating: rating
+            })
+        });
+        
+        const feedbackDiv = document.getElementById('feedbackContainer');
+        if (feedbackDiv) {
+            feedbackDiv.innerHTML = `
+                <p style="color: #4caf50; font-weight: bold;">
+                    ✓ Merci pour votre retour !
+                </p>
+            `;
+            setTimeout(() => feedbackDiv.remove(), 2000);
+        }
+    } catch (error) {
+        console.error('Erreur feedback:', error);
+    }
+}
+
+function showLanguageIndicator(language) {
+    const languages = {
+        'en': '🇬🇧 English',
+        'ar': '🇸🇦 العربية',
+        'fr': '🇫🇷 Français'
+    };
+    
+    const indicator = document.createElement('div');
+    indicator.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: white;
+        padding: 10px 15px;
+        border-radius: 25px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        font-size: 14px;
+        z-index: 1000;
+    `;
+    indicator.textContent = languages[language] || language;
+    
+    document.body.appendChild(indicator);
+    
+    setTimeout(() => {
+        indicator.style.transition = 'opacity 0.5s';
+        indicator.style.opacity = '0';
+        setTimeout(() => indicator.remove(), 500);
+    }, 3000);
+}
+
 async function updateStats() {
     try {
         const response = await fetch('/stats');
@@ -139,11 +370,11 @@ async function updateStats() {
         });
         
     } catch (error) {
-        console.error('Erreur lors de la récupération des stats:', error);
+        console.error('Erreur stats:', error);
     }
 }
 
-// Gestionnaire d'événement pour le formulaire
+// Gestionnaire de formulaire
 chatForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const message = userInput.value.trim();
@@ -152,7 +383,7 @@ chatForm.addEventListener('submit', (e) => {
     }
 });
 
-// Permettre l'envoi avec Enter
+// Enter pour envoyer
 userInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
@@ -162,6 +393,13 @@ userInput.addEventListener('keypress', (e) => {
 
 // Charger les stats au démarrage
 updateStats();
-
-// Mettre à jour les stats toutes les 30 secondes
 setInterval(updateStats, 30000);
+
+// 🆕 Notification de bienvenue avec animation
+setTimeout(() => {
+    addMessage(
+        "Bonjour ! Je suis votre assistant virtuel intelligent. Je peux vous aider en français, anglais ou arabe. N'hésitez pas à poser vos questions ! 🌍",
+        'bot',
+        'happy'
+    );
+}, 500);
