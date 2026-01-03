@@ -4,139 +4,91 @@
       "tag": "salutation",
       "patterns": {
         "fr": ["Bonjour", "Salut", "Hello", "Bonsoir", "Hey", "Coucou"],
-        "en": ["Hello", "Hi", "Hey", "Good morning", "Good afternoon", "Greetings"],
-        "ar": ["مرحبا", "السلام عليكم", "أهلا", "صباح الخير", "مساء الخير"]
+        "en": ["Hello", "Hi", "Hey", "Good morning", "Greetings"],
+        "ar": ["مرحبا", "السلام عليكم", "أهلا", "صباح الخير"]
       },
       "responses": {
-        "fr": [
-          "Bonjour ! Comment puis-je vous aider aujourd'hui ?",
-          "Salut ! Je suis là pour répondre à vos questions."
-        ],
-        "en": [
-          "Hello! How can I help you today?",
-          "Hi! I'm here to answer your questions."
-        ],
-        "ar": [
-          "مرحبا! كيف يمكنني مساعدتك اليوم؟",
-          "أهلا! أنا هنا للإجابة على أسئلتك."
-        ]
+        "fr": ["Bonjour ! Comment puis-je vous aider aujourd'hui ?", "Salut ! Je suis là pour vos questions."],
+        "en": ["Hello! How can I help you today?", "Hi! I'm here to answer your questions."],
+        "ar": ["مرحبا! كيف يمكنني مساعدتك اليوم؟", "أهلا! أنا هنا للإجابة على أسئلتك."]
       }
     },
     {
       "tag": "au_revoir",
       "patterns": {
-        "fr": ["Au revoir", "Bye", "À bientôt", "Salut", "Ciao"],
-        "en": ["Goodbye", "Bye", "See you", "Farewell", "Take care"],
+        "fr": ["Au revoir", "Bye", "À bientôt", "Je m'en vais"],
+        "en": ["Goodbye", "Bye", "See you", "Farewell"],
         "ar": ["مع السلامة", "إلى اللقاء", "وداعا"]
       },
       "responses": {
-        "fr": [
-          "Au revoir ! Passez une excellente journée !",
-          "À bientôt ! N'hésitez pas à revenir."
-        ],
-        "en": [
-          "Goodbye! Have a great day!",
-          "See you soon! Feel free to come back."
-        ],
-        "ar": [
-          "مع السلامة! أتمنى لك يوماً سعيداً!",
-          "إلى اللقاء! لا تتردد في العودة."
-        ]
+        "fr": ["Au revoir ! Passez une excellente journée !", "À bientôt !"],
+        "en": ["Goodbye! Have a great day!", "See you soon!"],
+        "ar": ["مع السلامة! أتمنى لك يوماً سعيداً!", "إلى اللقاء!"]
       }
     },
     {
       "tag": "statut_commande",
       "patterns": {
-        "fr": ["Où est ma commande", "Statut de ma commande", "Suivre mon colis", "Tracking"],
+        "fr": ["Où est ma commande", "Statut de ma commande", "Suivre mon colis", "Tracking", "Mon paquet", "Il est où mon truc"],
         "en": ["Where is my order", "Order status", "Track my package", "Tracking number"],
         "ar": ["أين طلبي", "حالة طلبي", "تتبع الشحنة", "رقم التتبع"]
       },
       "responses": {
-        "fr": [
-          "Pour vérifier le statut de votre commande, pourriez-vous me fournir votre numéro de commande ?"
-        ],
-        "en": [
-          "To check your order status, could you provide your order number?"
-        ],
-        "ar": [
-          "للتحقق من حالة طلبك، هل يمكنك تزويدي برقم الطلب؟"
-        ]
+        "fr": ["Pour vérifier le statut, j'ai besoin de votre numéro de commande."],
+        "en": ["To check your order status, could you provide your order number?"],
+        "ar": ["للتحقق من حالة طلبك، هل يمكنك تزويدي برقم الطلب؟"]
       }
     },
     {
       "tag": "retour_produit",
       "patterns": {
-        "fr": ["Comment retourner un produit", "Je veux faire un retour", "Politique de retour", "Remboursement"],
-        "en": ["How to return a product", "I want to make a return", "Return policy", "Refund"],
+        "fr": ["Comment retourner un produit", "Je veux faire un retour", "Remboursement", "Rendre mon argent", "Ça ne me plait pas", "C'est cassé"],
+        "en": ["How to return a product", "I want to make a return", "Return policy", "Refund", "Money back"],
         "ar": ["كيف أرجع المنتج", "أريد الإرجاع", "سياسة الإرجاع", "استرداد المال"]
       },
       "responses": {
-        "fr": [
-          "Vous avez 30 jours pour retourner un produit. Connectez-vous à votre compte et sélectionnez 'Retours'."
-        ],
-        "en": [
-          "You have 30 days to return a product. Log in to your account and select 'Returns'."
-        ],
-        "ar": [
-          "لديك 30 يومًا لإرجاع المنتج. قم بتسجيل الدخول إلى حسابك واختر 'الإرجاعات'."
-        ]
+        "fr": ["Vous avez 30 jours pour retourner un produit via votre espace client rubrique 'Mes Retours'."],
+        "en": ["You have 30 days to return a product. Log in to your account and select 'Returns'."],
+        "ar": ["لديك 30 يومًا لإرجاع المنتج. قم بتسجيل الدخول إلى حسابك واختر 'الإرجاعات'."]
       }
     },
     {
       "tag": "paiement",
       "patterns": {
-        "fr": ["Modes de paiement", "Comment payer", "Paiement sécurisé", "Carte bancaire", "PayPal"],
+        "fr": ["Modes de paiement", "Comment payer", "Carte bancaire", "PayPal", "Virement", "Je peux payer comment ?"],
         "en": ["Payment methods", "How to pay", "Secure payment", "Credit card", "PayPal"],
         "ar": ["طرق الدفع", "كيف أدفع", "دفع آمن", "بطاقة ائتمان", "باي بال"]
       },
       "responses": {
-        "fr": [
-          "Nous acceptons : Carte bancaire (Visa, Mastercard), PayPal, et paiement en 3x sans frais."
-        ],
-        "en": [
-          "We accept: Credit card (Visa, Mastercard), PayPal, and 3-installment payment."
-        ],
-        "ar": [
-          "نقبل: بطاقة الائتمان (فيزا، ماستركارد)، باي بال، والدفع على 3 أقساط."
-        ]
+        "fr": ["Nous acceptons les Cartes bancaires (Visa, Mastercard) et PayPal. Le paiement est 100% sécurisé."],
+        "en": ["We accept Credit cards (Visa, Mastercard) and PayPal."],
+        "ar": ["نقبل: بطاقة الائتمان (فيزا، ماستركارد)، باي بال."]
       }
     },
     {
       "tag": "livraison",
       "patterns": {
-        "fr": ["Délai de livraison", "Frais de livraison", "Livraison gratuite", "Combien de temps", "Expédition"],
+        "fr": ["Délai de livraison", "Frais de livraison", "Livraison gratuite", "Combien de temps", "Expédition", "Ça arrive quand ?", "C'est long la livraison ?"],
         "en": ["Delivery time", "Shipping cost", "Free shipping", "How long", "Shipping"],
         "ar": ["وقت التسليم", "تكلفة الشحن", "شحن مجاني", "كم من الوقت", "الشحن"]
       },
       "responses": {
-        "fr": [
-          "La livraison standard prend 3-5 jours ouvrés. Livraison gratuite dès 50€ d'achat."
-        ],
-        "en": [
-          "Standard delivery takes 3-5 business days. Free shipping from €50 purchase."
-        ],
-        "ar": [
-          "التوصيل القياسي يستغرق 3-5 أيام عمل. شحن مجاني ابتداءً من 50 يورو."
-        ]
+        "fr": ["La livraison standard prend 3 à 5 jours ouvrés. Elle est gratuite dès 50€ d'achat."],
+        "en": ["Standard delivery takes 3-5 business days. Free shipping from €50 purchase."],
+        "ar": ["التوصيل القياسي يستغرق 3-5 أيام عمل. شحن مجاني ابتداءً من 50 يورو."]
       }
     },
     {
       "tag": "aide_generale",
       "patterns": {
-        "fr": ["J'ai besoin d'aide", "Aidez-moi", "Support", "Assistance", "Contact"],
+        "fr": ["J'ai besoin d'aide", "Aidez-moi", "Support", "Assistance", "Contact", "Parler à un humain"],
         "en": ["I need help", "Help me", "Support", "Assistance", "Contact"],
         "ar": ["أحتاج مساعدة", "ساعدني", "الدعم", "المساعدة", "اتصال"]
       },
       "responses": {
-        "fr": [
-          "Je suis là pour vous aider ! Posez-moi votre question ou contactez notre support au 01-XX-XX-XX-XX"
-        ],
-        "en": [
-          "I'm here to help! Ask me your question or contact our support at 01-XX-XX-XX-XX"
-        ],
-        "ar": [
-          "أنا هنا للمساعدة! اطرح سؤالك أو اتصل بدعمنا على 01-XX-XX-XX-XX"
-        ]
+        "fr": ["Je suis une IA, mais vous pouvez contacter notre support humain au 01-23-45-67-89."],
+        "en": ["I'm an AI, but you can contact our human support at 01-23-45-67-89."],
+        "ar": ["أنا ذكاء اصطناعي، لكن يمكنك الاتصال بدعمنا البشري على 01-23-45-67-89."]
       }
     }
   ]
